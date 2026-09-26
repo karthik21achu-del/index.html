@@ -1,0 +1,15 @@
+services:
+  ecoshield:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ecoshield-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOST=0.0.0.0
+      # Optional: NASA FIRMS Map Key (system falls back automatically to open Near-Real-Time South Asia feed if omitted)
+      # - FIRMS_MAP_KEY=your_key_here

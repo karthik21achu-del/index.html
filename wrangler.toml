@@ -1,0 +1,33 @@
+# Cloudflare Workers — EcoShield
+#
+# Prerequisites:
+#   npm install -g wrangler
+#   wrangler login
+#
+# Deploy:
+#   npm run build
+#   wrangler deploy
+#
+# Set the satellite key as a secret (never in this file):
+#   wrangler secret put FIRMS_MAP_KEY
+
+name            = "ecoshield"
+main            = "dist/server/index.js"
+compatibility_date = "2026-09-01"
+
+# Worker runs only at request time — no Durable Objects or scheduled triggers needed.
+# The in-process memo cache (15 min TTL) works per-isolate; across isolates data is
+# re-fetched independently, which is acceptable for a public environmental dashboard.
+
+[assets]
+directory = "dist/client"
+binding   = "ASSETS"
+
+# Secrets (set via `wrangler secret put`, never here):
+#   FIRMS_MAP_KEY — NASA FIRMS Area API map key
+#
+# No other secrets are required. Open-Meteo, GloFAS, CAMS and Copernicus
+# are publicly accessible without authentication.
+
+[observability]
+enabled = true
